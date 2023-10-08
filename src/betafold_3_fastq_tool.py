@@ -58,7 +58,7 @@ def quality_check(sequence: str, quality_threshold: int) -> bool:
     return quality / len(sequence) >= quality_threshold
 
 
-def fastq_tool(
+def run_fastq_tool(
     seqs: dict,
     gc_bounds: tuple = (0, 100),
     length_bounds: tuple = (0, 2**32),
