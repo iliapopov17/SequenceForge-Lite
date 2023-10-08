@@ -51,9 +51,9 @@ def complement(sequence: str) -> str:
                       'a': 'u', 'g': 'c', 'u': 'a', 'c': 'g',}
     
     if ('T' in sequence) or ('t' in sequence):
-        complement_sequence = ''.join([complement_DNA[nt] for nt in seq])
+        complement_sequence = ''.join([complement_DNA[nt] for nt in sequence])
     elif ('U' in sequence) or ('u' in sequence):
-        complement_sequence = ''.join([complemetn_RNA[nt] for nt in seq])
+        complement_sequence = ''.join([complemetn_RNA[nt] for nt in sequence])
 
     return complement_sequence
 
