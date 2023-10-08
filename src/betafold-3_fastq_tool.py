@@ -38,3 +38,22 @@ def length_check(sequence: str, length_bounds: tuple) -> bool:
     return bottom_threshold <= len(sequence) <= top_threshold
 
 
+def quality_check(sequence: str, quality_threshold: int) -> bool:
+    """
+    This function checks if the quality score of a DNA sequence in fastq file lies above a specified bound.
+
+    Parameters:
+    - seq (str): DNA sequence
+    - quality_threshold (int): acceptable quality
+
+    Returns:
+    - bool: True if the average quality score is above the threshold, False if not
+    """
+    
+    quality = 0
+
+    for char in sequence:
+        quality += ord(char) - 33
+
+    return quality / len(sequence) >= quality_threshold
+
