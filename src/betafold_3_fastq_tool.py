@@ -15,10 +15,12 @@ def gc_check(sequence: str, gc_bounds: tuple) -> bool:
     for base in sequence:
         if base == "G" or base == "C":
             gc += 1
+    
+    gc_percent = gc / len(sequence) * 100
             
     bottom_threshold, top_threshold = gc_bounds
 
-    return bottom_threshold <= gc <= top_threshold
+    return bottom_threshold <= gc_percent <= top_threshold
 
 
 def length_check(sequence: str, length_bounds: tuple) -> bool:
