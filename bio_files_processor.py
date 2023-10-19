@@ -51,3 +51,35 @@ def get_gene_sequence(file_input):
                 line = next(file_input).strip()
                 seq += line
     return gene, seq
+
+
+def select_gene_from_gbk(input_gbk: str, target_gene: str, n_before: int, n_after: int) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]]]:
+    '''
+    This function selects genes around gene of interest in gbk file
+
+    Parameters:
+    - input_gbk (str): path to the gbk file
+    - target_gene (str): name of the target gene
+    - n_before (int): number of genes we want to get before target
+    - n_after (int): number of genes we want to get after target
+
+    Returns:
+    - Tuple of two lists: genes before and after the target, consisting of tuples with the name of the gene and its amino acid sequence
+    '''
+
+    with open(input_gbk) as file_input:
+        genes_before = [None] * n_before
+        genes_after = [None] * n_after
+        gene, seq = get_gene_sequence(file_input)
+        while gene:
+            if target_gene in gene:
+                break
+            genes_before.append((gene + f'_before_{target_gene}', seq))
+            del genes_before[0]
+            gene, seq = get_gene_sequence(file_input)
+        while gene:
+            genes_after.append((gene + f'_after_{target_gene}', seq))
+            del genes_after[0]
+            if None not in genes_after:
+                return [g for g in genes_before if g], [g for g in genes_after if g]
+    return [g for g in genes_before if g], [g for g in genes_after if g]
