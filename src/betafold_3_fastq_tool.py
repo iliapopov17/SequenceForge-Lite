@@ -1,3 +1,34 @@
+from typing import Union, Dict, Tuple
+
+
+def read_fastq(input_path: str) -> Dict[str, Tuple[str, str]]:
+    '''
+    This function reads fastq file and makes from dict of sequences
+
+    Parameters:
+    - input_path (str): path to a fastq file
+
+    Returns:
+    - Dict: dictionary:
+        1. keys - seq names
+        2. values - tuple of sequences and their's quality
+    '''
+
+    seqs = {}
+    with open(input_path, 'r') as file:
+        for line in file:
+            if line.startswith("@"):
+                counter = 0
+                name = line[1:]
+            if counter == 1:
+                seq = line
+            if counter == 3:
+                quality = line
+                seqs[name] = (seq, quality)
+            counter += 1
+    return seqs
+
+
 def gc_check(sequence: str, gc_bounds: tuple) -> bool:
     '''
     This function checks if the GC content of a DNA sequence in fastq file lies within specified bounds
