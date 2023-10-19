@@ -83,3 +83,29 @@ def select_gene_from_gbk(input_gbk: str, target_gene: str, n_before: int, n_afte
             if None not in genes_after:
                 return [g for g in genes_before if g], [g for g in genes_after if g]
     return [g for g in genes_before if g], [g for g in genes_after if g]
+
+
+def select_genes_from_gbk_to_fasta(input_gbk: str, genes: List[str], n_before: int, n_after: int, output_fasta: str = None) -> None:
+    '''
+    This function extracts gene sequences from the GenBank (gbk) file and creates a FASTA file with the specified neighbouring genes
+
+    Parameters:
+    - input_gbk (str): path to the input GenBank file
+    - genes (List[str]): list of genes to extract
+    - n_before (int): number of genes before the specified genes to include
+    - n_after (int): number of genes after the specified genes to include
+    - output_fasta (str): path to the output FASTA file
+
+    Returns:
+    - FASTA file
+    '''
+
+    if output_fasta is None:
+        output_fasta = os.path.splitext(os.path.basename(input_gbk))[0] + '_target_proteins.fasta'
+    with open(output_fasta, 'w') as file:
+        for target in genes:
+            genes_before, genes_after = select_gene_from_gbk(input_gbk, target, n_before, n_after)
+            for gene, seq in genes_before:
+                file.write(f'>{gene}\n{seq}\n')
+            for gene, seq in genes_after:
+                file.write(f'>{gene}\n{seq}\n')
