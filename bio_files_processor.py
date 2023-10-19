@@ -24,6 +24,7 @@ def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = Non
                 seq.append(line.strip())
         file_output.write(''.join(seq))
 
+
 def get_gene_sequence(file_input):
     '''
     This function parses a GenBank (GBK) file and extracts information about a gene, specifically the gene's name and its associated amino acid sequence.
