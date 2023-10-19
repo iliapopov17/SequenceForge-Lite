@@ -7,7 +7,7 @@ AMINO_ACIDS = {'A': 'Ala', 'C': 'Cys', 'D': 'Asp', 'E': 'Glu', 'F': 'Phe', 'G': 
 
 
 def is_aa(sequence: str) -> bool:
-    """
+    '''
     This function checks if a sequence contains only amino acids
 
     Parameters:
@@ -15,13 +15,14 @@ def is_aa(sequence: str) -> bool:
 
     Returns:
     - bool: True if the sequence contains only amino acids, False if not
-    """
+    '''
+
     unique_chars = set(sequence)
     return unique_chars <= AA_SET
 
 
 def choose_weight(weight: str) -> dict:
-    """
+    '''
      This function chooses the weight type of amino acids - average or monoisotopic.
 
     Parameters:
@@ -29,7 +30,8 @@ def choose_weight(weight: str) -> dict:
 
     Returns:
     - dict: dictionary mapping amino acids to their weights based on the chosen type.
-    """
+    '''
+
     if weight == 'average':
         average_weights = {
             'A': 71.0788, 'R': 156.1875, 'N': 114.1038, 'D': 115.0886, 'C': 103.1388,
@@ -45,13 +47,13 @@ def choose_weight(weight: str) -> dict:
             'S': 87.03203, 'T': 101.04768, 'W': 186.07931, 'Y': 163.06333, 'V': 99.06841
         }
     else:
-        raise ValueError(f"I do not know what '{weight}' is :( \n Read help or just do not write anything except your sequence")
+        raise ValueError(f'I do not know what "{weight}" is :( \n Read help or just do not write anything except your sequence')
 
     return average_weights if weight == 'average' else monoisotopic_weights
 
 
 def aa_weight(sequence: str, weight: str = 'average') -> float:
-    """
+    '''
     This function calculates amino acids weight in a protein sequence
 
     Parameters:
@@ -60,7 +62,8 @@ def aa_weight(sequence: str, weight: str = 'average') -> float:
 
     Returns:
     - float: calculated weight of the amino acid sequence
-    """
+    '''
+
     weights_aa = choose_weight(weight)
     final_weight = 0
     for aa in sequence.upper():
@@ -69,7 +72,7 @@ def aa_weight(sequence: str, weight: str = 'average') -> float:
 
 
 def count_hydroaffinity(sequence: str) -> list:
-    """
+    '''
     This function counts the quantity of hydrophobic and hydrophilic amino acids in a protein sequence.
 
     Parameters:
@@ -77,7 +80,8 @@ def count_hydroaffinity(sequence: str) -> list:
 
     Returns:
     - tuple: tuple containing the count of hydrophobic and hydrophilic amino acids, respectively.
-    """
+    '''
+
     hydrophobic_count = 0
     hydrophilic_count = 0
     sequence = sequence.upper()
@@ -91,42 +95,43 @@ def count_hydroaffinity(sequence: str) -> list:
     return [hydrophobic_count, hydrophilic_count]
 
 
-def peptide_cutter(sequence: str, enzyme: str = "trypsin") -> list:
-    """
+def peptide_cutter(sequence: str, enzyme: str = 'trypsin') -> list:
+    '''
     This function identifies cleavage sites in amino acid sequence using a specified enzyme
     
     Parameters:
     - sequence (str): amino acid sequence .
-    - enzyme (str): enzyme to be used for cleavage. Choose between "trypsin" and "chymotrypsin". Default is "trypsin"
+    - enzyme (str): enzyme to be used for cleavage. Choose between 'trypsin' and 'chymotrypsin'. Default is 'trypsin'
         
     Returns:
     - str: message indicating the number and positions of cleavage sites, or an error message if an invalid enzyme is provided
-    """
+    '''
+
     cleavage_sites = []
 
-    if enzyme not in ("trypsin", "chymotrypsin"):
-        return "You have chosen an enzyme that is not provided. Please choose between trypsin and chymotrypsin."
+    if enzyme not in ('trypsin', 'chymotrypsin'):
+        return 'You have chosen an enzyme that is not provided. Please choose between trypsin and chymotrypsin.'
     
-    if enzyme == "trypsin":  # Trypsin cuts peptide chains mainly at the carboxyl side of the amino acids lysine or arginine.
+    if enzyme == 'trypsin':  # Trypsin cuts peptide chains mainly at the carboxyl side of the amino acids lysine or arginine.
         for aa in range(len(sequence)-1):
             if sequence[aa] in ['K', 'R', 'k', 'r'] and sequence[aa+1] not in ['P', 'p']:
                 cleavage_sites.append(aa + 1)
     
-    if enzyme == "chymotrypsin":  # Chymotrypsin preferentially cleaves at Trp, Tyr and Phe in position P1(high specificity) 
+    if enzyme == 'chymotrypsin':  # Chymotrypsin preferentially cleaves at Trp, Tyr and Phe in position P1(high specificity) 
         for aa in range(len(sequence) - 1):
             if sequence[aa] in ['W', 'Y', 'F', 'w', 'y', 'f'] and sequence[aa + 1] not in ['P','p']:
                 cleavage_sites.append(aa + 1)
     
     if cleavage_sites:
-        print( f"Found {len(cleavage_sites)} {enzyme} cleavage sites at positions {', '.join(map(str, cleavage_sites))}")
-        return cleavage_sites#  list(', '.join(map(str, cleavage_sites)))
+        print( f'Found {len(cleavage_sites)} {enzyme} cleavage sites at positions {", ".join(map(str, cleavage_sites))}')
+        return cleavage_sites
     else:
-        print(f"No {enzyme} cleavage sites were found.")
+        print(f'No {enzyme} cleavage sites were found.')
         return 0
 
 
 def one_to_three_letter_code(sequence: str) -> str:
-    """
+    '''
     This function converts a amino acid sequence from one-letter amino acid code to three-letter code
     
     Parameters:
@@ -134,7 +139,7 @@ def one_to_three_letter_code(sequence: str) -> str:
         
     Returns:
     - str: converted amino acid sequence in three-letter code
-    """
+    '''
 
     three_letter_code = [AMINO_ACIDS.get(aa.upper()) for aa in sequence]
 
@@ -142,7 +147,7 @@ def one_to_three_letter_code(sequence: str) -> str:
 
 
 def sulphur_containing_aa_counter(sequence: str) -> int:
-    """
+    '''
     This function counts sulphur-containing amino acids (Cysteine and Methionine) in a amino acid sequence
     
     Parameters:
@@ -150,7 +155,8 @@ def sulphur_containing_aa_counter(sequence: str) -> int:
         
     Returns:
     - str: The number of sulphur-containing amino acids in a amino acid sequence
-    """
+    '''
+
     counter = 0
 
     sequence = sequence.upper()
@@ -163,7 +169,7 @@ def sulphur_containing_aa_counter(sequence: str) -> int:
 
 
 def run_amino_analyzer(sequence: str, procedure: str, *, weight_type: str = 'average', enzyme: str = 'trypsin'):
-    """
+    '''
     This is the main function to run the amino-analyzer.py tool.
     
     Parameters:
@@ -181,14 +187,14 @@ def run_amino_analyzer(sequence: str, procedure: str, *, weight_type: str = 'ave
 
     Returns:
     - The result of the specified procedure.
-    """
+    '''
 
     procedures = ['aa_weight', 'count_hydroaffinity', 'peptide_cutter', 'one_to_three_letter_code', 'sulphur_containing_aa_counter']
     if procedure not in procedures:
-        raise ValueError(f"Incorrect procedure. Acceptable procedures: {', '.join(procedures)}")
+        raise ValueError(f'Incorrect procedure. Acceptable procedures: {", ".join(procedures)}')
 
     if not is_aa(sequence):
-        raise ValueError("Incorrect sequence. Only amino acids are allowed (V, I, L, E, Q, D, N, H, W, F, Y, R, K, S, T, M, A, G, P, C, v, i, l, e, q, d, n, h, w, f, y, r, k, s, t, m, a, g, p, c).")
+        raise ValueError('Incorrect sequence. Only amino acids are allowed (V, I, L, E, Q, D, N, H, W, F, Y, R, K, S, T, M, A, G, P, C, v, i, l, e, q, d, n, h, w, f, y, r, k, s, t, m, a, g, p, c).')
 
     if procedure == 'aa_weight':
         result = aa_weight(sequence, weight_type)
