@@ -11,9 +11,10 @@ def gc_check(sequence: str, gc_bounds: tuple) -> bool:
     '''
     
     gc = 0
+    sequence = sequence.upper()
 
     for base in sequence:
-        if base == 'G' or base == 'C' or base == 'g' or base == 'c':
+        if base == 'G' or base == 'C':
             gc += 1
     
     gc_percent = gc / len(sequence) * 100
