@@ -114,7 +114,7 @@ def peptide_cutter(sequence: str, enzyme: str = "trypsin") -> list:
     
     if enzyme == "chymotrypsin":  # Chymotrypsin preferentially cleaves at Trp, Tyr and Phe in position P1(high specificity) 
         for aa in range(len(sequence) - 1):
-            if sequence[aa] in ['W', 'Y', 'F', 'w', 'y', 'f'] and sequence[aa+1] not in ['P','p']:
+            if sequence[aa] in ['W', 'Y', 'F', 'w', 'y', 'f'] and sequence[aa + 1] not in ['P','p']:
                 cleavage_sites.append(aa + 1)
     
     if cleavage_sites:
