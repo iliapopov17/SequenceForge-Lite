@@ -1,4 +1,5 @@
 import os
+from typing import List, Tuple
 
 def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str = None) -> None:
     '''
