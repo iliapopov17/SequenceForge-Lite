@@ -1,5 +1,6 @@
 from src import betafold_3_amino_analyzer
 from src import betafold_3_dna_rna_tools
+from src import betafold_3_fastq_tool
 
 
 def run_amino_analyzer(sequence: str, procedure: str, *, weight_type: str = 'average', enzyme: str = 'trypsin'):
@@ -88,3 +89,66 @@ def run_dna_rna_tools(*args: str) -> str:
         return results[0]
     else:
         return results
+    
+
+def run_fastq_tool(
+    seqs: dict,
+    gc_bounds: tuple = (0, 100),
+    length_bounds: tuple = (0, 2**32),
+    quality_threshold: int = 0,
+) -> dict:
+    '''
+    This is the main function that filters the DNA sequences in a fastq file based on specified criteria
+
+    Parameters:
+    - seqs (dict): dictionary where keys are sequence identifiers and values are tuples containing sequence and quality scores
+    - gc_bounds (tuple): tuple with bottom and top bounds for GC content
+    - length_bounds (tuple): tuple with bottom and top bounds for sequence length
+    - quality_threshold (int): acceptable quality
+
+    Returns:
+    - dict: filtered dictionary that contains only the sequences that fully match the specified criteria
+    '''
+
+    # ------------------------------------------------------
+    # Check if every parameter is setted up correctly
+    if type(gc_bounds) == int:
+        gc_bounds = (0, gc_bounds)
+
+    elif len(gc_bounds) == 1:
+        gc_bounds = (0, gc_bounds[0])
+
+    elif len(gc_bounds) > 2:
+        raise ValueError('Invalid gc_bound value!')
+
+    elif type(gc_bounds) != tuple:
+        raise ValueError('Input tuple value!')
+
+    if type(length_bounds) == int:
+        length_bounds = (0, length_bounds)
+
+    elif len(length_bounds) == 1:
+        length_bounds = (0, length_bounds[0])
+
+    elif len(length_bounds) > 2:
+        raise ValueError('Invalid length_bounds value!')
+
+    elif type(length_bounds) != tuple:
+        raise ValueError('Input tuple value!')
+
+    if len(str(quality_threshold)) > 2:
+        raise ValueError('Invalid quality_threshold value!')
+    
+    elif type(quality_threshold) != int:
+        raise ValueError('Input integer value!')
+    # ------------------------------------------------------
+
+    filtered_seqs = {}
+    
+    for name, (sequence, quality) in seqs.items():        
+        if (gc_check(sequence, gc_bounds) 
+            and length_check(sequence, length_bounds) 
+            and quality_check(quality, quality_threshold)):
+            filtered_seqs[name] = (sequence, quality)
+    
+    return filtered_seqs
