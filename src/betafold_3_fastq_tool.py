@@ -115,9 +115,9 @@ def run_fastq_tool(
     filtered_seqs = {}
     
     for name, (sequence, quality) in seqs.items():        
-        if ((gc_check(sequence, gc_bounds))
-            and (length_check(sequence, length_bounds))
-            and (quality_check(quality, quality_threshold))):
+        if (gc_check(sequence, gc_bounds) 
+            and length_check(sequence, length_bounds) 
+            and quality_check(quality, quality_threshold)):
             filtered_seqs[name] = (sequence, quality)
     
     return filtered_seqs
