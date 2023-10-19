@@ -1,5 +1,5 @@
 def gc_check(sequence: str, gc_bounds: tuple) -> bool:
-    """
+    '''
     This function checks if the GC content of a DNA sequence in fastq file lies within specified bounds
 
     Parameters:
@@ -8,12 +8,12 @@ def gc_check(sequence: str, gc_bounds: tuple) -> bool:
 
     Returns:
     - bool: True if GC content is within bounds, False if not
-    """
+    '''
     
     gc = 0
 
     for base in sequence:
-        if base == "G" or base == "C":
+        if base == 'G' or base == 'C' or base == 'g' or base == 'c':
             gc += 1
     
     gc_percent = gc / len(sequence) * 100
@@ -24,7 +24,7 @@ def gc_check(sequence: str, gc_bounds: tuple) -> bool:
 
 
 def length_check(sequence: str, length_bounds: tuple) -> bool:
-    """
+    '''
     This function checks if the length of a DNA sequence in fastq file lies within specified bounds
 
     Parameters:
@@ -33,7 +33,7 @@ def length_check(sequence: str, length_bounds: tuple) -> bool:
 
     Returns:
     - bool: True if the length is within bounds, False if not
-    """
+    '''
     
     bottom_threshold, top_threshold = length_bounds
 
@@ -41,7 +41,7 @@ def length_check(sequence: str, length_bounds: tuple) -> bool:
 
 
 def quality_check(sequence: str, quality_threshold: int) -> bool:
-    """
+    '''
     This function checks if the quality score of a DNA sequence in fastq file lies above a specified bound.
 
     Parameters:
@@ -50,7 +50,7 @@ def quality_check(sequence: str, quality_threshold: int) -> bool:
 
     Returns:
     - bool: True if the average quality score is above the threshold, False if not
-    """
+    '''
     
     quality = 0
 
@@ -66,7 +66,7 @@ def run_fastq_tool(
     length_bounds: tuple = (0, 2**32),
     quality_threshold: int = 0,
 ) -> dict:
-    """
+    '''
     This is the main function that filters the DNA sequences in a fastq file based on specified criteria
 
     Parameters:
@@ -77,7 +77,7 @@ def run_fastq_tool(
 
     Returns:
     - dict: filtered dictionary that contains only the sequences that fully match the specified criteria
-    """
+    '''
 
     # ------------------------------------------------------
     # Check if every parameter is setted up correctly
@@ -88,10 +88,10 @@ def run_fastq_tool(
         gc_bounds = (0, gc_bounds[0])
 
     elif len(gc_bounds) > 2:
-        raise ValueError("Invalid gc_bound value!")
+        raise ValueError('Invalid gc_bound value!')
 
     elif type(gc_bounds) != tuple:
-        raise ValueError("Input tuple value!")
+        raise ValueError('Input tuple value!')
 
     if type(length_bounds) == int:
         length_bounds = (0, length_bounds)
@@ -100,16 +100,16 @@ def run_fastq_tool(
         length_bounds = (0, length_bounds[0])
 
     elif len(length_bounds) > 2:
-        raise ValueError("Invalid length_bounds value!")
+        raise ValueError('Invalid length_bounds value!')
 
     elif type(length_bounds) != tuple:
-        raise ValueError("Input tuple value!")
+        raise ValueError('Input tuple value!')
 
     if len(str(quality_threshold)) > 2:
-        raise ValueError("Invalid quality_threshold value!")
+        raise ValueError('Invalid quality_threshold value!')
     
     elif type(quality_threshold) != int:
-        raise ValueError("Input integer value!")
+        raise ValueError('Input integer value!')
     # ------------------------------------------------------
 
     filtered_seqs = {}
