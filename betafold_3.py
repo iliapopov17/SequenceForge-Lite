@@ -53,6 +53,8 @@ class BiologicalSequence(ABC):
 
 
 class NucleicAcidSequence(BiologicalSequence):
+    complement_dict = {"A": "", "T": "", "G": "", "C": ""}
+
     def __init__(self, sequence):
         self.sequence = sequence
 
@@ -70,9 +72,13 @@ class NucleicAcidSequence(BiologicalSequence):
         return set(self.sequence) <= valid_alphabet
 
     def complement(self):
-        raise NotImplementedError(
-            "complement method should be implemented in subclasses"
-        )
+        complemented_sequence = [
+            self.complement_dict.get(base, base) for base in self.sequence
+        ]
+        return self._create_instance("".join(complemented_sequence))
+
+    def _create_instance(self, sequence):
+        return self.__class__(sequence)
 
     def gc_content(self):
         gc_count = sum(base in "GCgc" for base in self.sequence)
@@ -80,12 +86,21 @@ class NucleicAcidSequence(BiologicalSequence):
 
 
 class DNASequence(NucleicAcidSequence):
+    complement_dict = {"A": "T", "T": "A", "G": "C", "C": "G"}
+
     def transcribe(self):
-        return RNASequence(self.sequence.replace("T", "U"))
+        transcription_rules = {"A": "U", "T": "A", "G": "C", "C": "G"}
+        transcribed_sequence = "".join(
+            transcription_rules.get(base, base) for base in self.sequence
+        )
+        return RNASequence(transcribed_sequence)
 
 
 class RNASequence(NucleicAcidSequence):
-    pass
+    complement_dict = {"A": "U", "U": "A", "G": "C", "C": "G"}
+
+    def codons(self):
+        return [self.sequence[i : i + 3] for i in range(0, len(self.sequence), 3)]
 
 
 class AminoAcidSequence(BiologicalSequence):
