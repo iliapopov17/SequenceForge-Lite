@@ -1,4 +1,4 @@
-# BetaFold-3
+# SequenceForge-Lite
 
 BetaFold 3 is a versatile tool that lets you do anything you want with sequences:
 1. DNA or RNA.
