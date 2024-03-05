@@ -1,1 +1,1 @@
-# BetaFold-3
+# SequenceForge-Lite
