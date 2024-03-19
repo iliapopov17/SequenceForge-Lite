@@ -27,11 +27,11 @@ SequenceForge-Lite is a lightweight tool designed to work with biological sequen
 
 ## Installation
 
-```python
+```bash
 git clone https://github.com/iliapopov17/SequenceForge-Lite.git && cd SequenceForge-Lite
 ```
 
-```python
+```bash
 pip install biopython
 ```
 
