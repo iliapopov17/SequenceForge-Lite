@@ -117,6 +117,17 @@ class NucleicAcidSequence(BiologicalSequence):
         gc_count = sum(base in "GCgc" for base in self.sequence)
         return gc_count / len(self.sequence)
 
+    def find_motif(self, motif):
+        motif_indices = []
+        motif_length = len(motif)
+        sequence_length = len(self)
+
+        for i in range(sequence_length - motif_length + 1):
+            if self[i : i + motif_length] == motif:
+                motif_indices.append(i)
+
+        return motif_indices
+
 
 class DNASequence(NucleicAcidSequence):
     complement_dict = {"A": "T", "T": "A", "G": "C", "C": "G"}
