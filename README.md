@@ -23,6 +23,7 @@
 - Prints complement sequence for DNA
 - Prints transcribes RNA sequence for DNA
 - Prints RNA sequence in codons
+- Finds motifs in nucleic acids sequences
 - Calculates molecular weight of amino acid sequence
 
 ## Installation
@@ -84,30 +85,35 @@ Filtered FastQ. Saved as demo_data/example_fastq_filtered.fastq
 ### Example usage of `DNASequence` class
 
 ```python
-dna_sequence = DNASequence("ATCGATCG")
+dna_sequence = DNASequence("ATCGGCTAATCGGCTA")
+motif_to_find = "CGG"
 print("DNA Sequence:", dna_sequence)
 print("Length:", len(dna_sequence))
 print("GC Content:", dna_sequence.gc_content())
 print("Complement:", dna_sequence.complement())
 print("Transcribed RNA Sequence:", dna_sequence.transcribe())
+print(f"Indexes of {motif_to_find} motif occurrences:", dna_sequence.find_motif(motif_to_find))
 ```
 
 ```
-DNA Sequence: ATCGATCG
-Length: 8
+DNA Sequence: ATCGGCTAATCGGCTA
+Length: 16
 GC Content: 0.5
-Complement: TAGCTAGC
-Transcribed RNA Sequence: UAGCUAGC
+Complement: TAGCCGATTAGCCGAT
+Transcribed RNA Sequence: UAGCCGAUUAGCCGAU
+Indexes of CGG motif occurrences: [2, 10]
 ```
 
 ### Example usage of `RNASequence` class
 
 ```python
 rna_sequence = RNASequence("AUCGAUCGA")
+motif_to_find = "GAU"
 print("RNA Sequence:", rna_sequence)
 print("Length:", len(rna_sequence))
 print("GC Content:", rna_sequence.gc_content())
 print("Codons:", rna_sequence.codons())
+print(f"Indexes of {motif_to_find} motif occurrences:", rna_sequence.find_motif(motif_to_find))
 ```
 
 ```
@@ -115,6 +121,7 @@ RNA Sequence: AUCGAUCGA
 Length: 9
 GC Content: 0.4444444444444444
 Codons: ['AUC', 'GAU', 'CGA']
+Indexes of GAU motif occurrences: [3]
 ```
 
 ### Example usage of `AminoAcidSequence` class
