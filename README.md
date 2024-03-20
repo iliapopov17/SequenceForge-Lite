@@ -70,7 +70,7 @@ input_file = "demo_data/example_blast_results.txt"
 parse_blast_output(input_file)
 ```
 
-### **Example of using the `fastq_filter` function**
+### Example of using the `fastq_filter` function
 
 ```python
 input_file = "demo_data/example_fastq.fastq"
