@@ -107,8 +107,8 @@ Indexes of CGG motif occurrences: [2, 10]
 ### Example usage of `RNASequence` class
 
 ```python
-rna_sequence = RNASequence("AUCGAUCGA")
-motif_to_find = "GAU"
+rna_sequence = dna_sequence.transcribe()
+motif_to_find = "GCC"
 print("RNA Sequence:", rna_sequence)
 print("Length:", len(rna_sequence))
 print("GC Content:", rna_sequence.gc_content())
@@ -117,11 +117,11 @@ print(f"Indexes of {motif_to_find} motif occurrences:", rna_sequence.find_motif(
 ```
 
 ```
-RNA Sequence: AUCGAUCGA
-Length: 9
-GC Content: 0.4444444444444444
-Codons: ['AUC', 'GAU', 'CGA']
-Indexes of GAU motif occurrences: [3]
+RNA Sequence: UAGCCGAUUAGCCGA
+Length: 15
+GC Content: 0.5333333333333333
+Codons: ['UAG', 'CCG', 'AUU', 'AGC', 'CGA']
+Indexes of GCC motif occurrences: [2, 10]
 ```
 
 ### Example usage of `AminoAcidSequence` class
