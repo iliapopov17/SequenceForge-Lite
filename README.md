@@ -18,12 +18,12 @@
 - Extract the top hit for each query from BLAST output files.
 - Results are sorted alphabetically for easy analysis.
 ### DNA, RNA & amino acid classes
-- Calculates length of the sequence
 - Calculates GC content in DNA and RNA sequences
 - Prints complement sequence for DNA
-- Prints transcribes RNA sequence for DNA
+- Transcribes DNA sequence to RNA
 - Prints RNA sequence in codons
 - Finds motifs in nucleic acids sequences
+- Translates RNA sequence to amino acid
 - Calculates molecular weight of amino acid sequence
 
 ## Installation
