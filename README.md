@@ -147,7 +147,7 @@ Length: 5
 Molecular Weight: 729.8299999999999
 ```
 
-## Troubleshooting:
+## Troubleshooting
 Common Issues and Solutions:
 1. **File Not Found Error:**
 - **Issue**: The script raises a FileNotFoundError when trying to access the input file.
