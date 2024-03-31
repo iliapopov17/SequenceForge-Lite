@@ -42,11 +42,15 @@ pip install biopython
 
 ### Example of using the `convert_multiline_fasta_to_online` function
 
+**_Input_**
+
 ```python
 input_fasta_file = "demo_data/example_multiline_fasta.fasta"
 output_fasta_file = "demo_data/example_oneline_fasta.fasta"
 convert_multiline_fasta_to_oneline(input_fasta_file, output_fasta_file)
 ```
+
+**_Output_**
 
 ```
 Converted multiline FASTA to one-line FASTA. Saved as demo_data/example_oneline_fasta.fasta
@@ -54,11 +58,15 @@ Converted multiline FASTA to one-line FASTA. Saved as demo_data/example_oneline_
 
 ### Example of using the `change_fasta_start_pos` function
 
+**_Input_**
+
 ```python
 input_fasta_file = "demo_data/example_oneline_fasta.fasta"
 shift_amount = 10
 change_fasta_start_pos(input_fasta_file, shift_amount)
 ```
+
+**_Output_**
 
 ```
 Shifted FASTA sequence saved to demo_data/example_oneline_fasta_shifted.fasta
@@ -66,23 +74,37 @@ Shifted FASTA sequence saved to demo_data/example_oneline_fasta_shifted.fasta
 
 ### Example of using the `parse_blast_output` function
 
+**_Input_**
+
 ```python
 input_file = "demo_data/example_blast_results.txt"
 parse_blast_output(input_file)
 ```
 
+**_Output_**
+
+```
+Best BLAST results saved to demo_data/example_blast_results_parsed.txt
+```
+
 ### Example of using the `fastq_filter` function
+
+**_Input_**
 
 ```python
 input_file = "demo_data/example_fastq.fastq"
 fastq_filter(input_file, gc_bound=(40,60), length_bound=(0, 200), quality_threshold=25)
 ```
 
+**_Output_**
+
 ```
 Filtered FastQ. Saved as demo_data/example_fastq_filtered.fastq
 ```
 
 ### Example usage of `DNASequence` class
+
+**_Input_**
 
 ```python
 dna_sequence = DNASequence("ACCGGCTAATCGGCT")
@@ -96,6 +118,8 @@ print("Transcribed RNA Sequence:", dna_sequence.transcribe())
 print(f"Indexes of {motif_to_find} motif occurrences:", dna_sequence.find_motif(motif_to_find))
 ```
 
+**_Output_**
+
 ```
 <class 'sequence_forge.DNASequence'>
 DNA Sequence: ACCGGCTAATCGGCT
@@ -107,6 +131,8 @@ Indexes of CGG motif occurrences: [2, 10]
 ```
 
 ### Example usage of `RNASequence` class
+
+**_Input_**
 
 ```python
 rna_sequence = dna_sequence.transcribe()
@@ -120,6 +146,8 @@ print(f"Indexes of {motif_to_find} motif occurrences:", rna_sequence.find_motif(
 print("Tranlated to Amino Acid Sequence:", rna_sequence.translate())
 ```
 
+**_Output_**
+
 ```
 <class 'sequence_forge.RNASequence'>
 RNA Sequence: UGGCCGAUUAGCCGA
@@ -132,6 +160,8 @@ Tranlated to Amino Acid Sequence: WPISR
 
 ### Example usage of `AminoAcidSequence` class
 
+**_Input_**
+
 ```python
 amino_acid_sequence = rna_sequence.translate()
 print(type(amino_acid_sequence))
@@ -139,6 +169,8 @@ print("Amino Acid Sequence:", amino_acid_sequence)
 print("Length:", len(amino_acid_sequence))
 print("Molecular Weight:", amino_acid_sequence.get_molecular_weight())
 ```
+
+**_Output_**
 
 ```
 <class 'sequence_forge.AminoAcidSequence'>
