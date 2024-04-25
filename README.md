@@ -40,6 +40,15 @@ pip install biopython
 - Demonstrational python notebook is available in `demo.ipynb` file
 - Demonstrational data is available in `demo_data` folder
 
+### Import modules
+
+**_Input_**
+
+```python
+from bio_files_processor import *
+from sequence_forge import *
+```
+
 ### Example of using the `convert_multiline_fasta_to_online` function
 
 **_Input_**
