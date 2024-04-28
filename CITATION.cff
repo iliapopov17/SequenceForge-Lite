@@ -1,0 +1,8 @@
+cff-version: 1.8.0
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Popov
+    given-names: Ilia
+title: "SequenceForge Lite"
+date-released: 2024-04-28
+url: https://github.com/iliapopov17/SequenceForge-Lite

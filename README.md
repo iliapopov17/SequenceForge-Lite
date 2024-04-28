@@ -1,5 +1,10 @@
 # SequenceForge-Lite
 
+![Python3](https://img.shields.io/badge/Language-Python3-steelblue)
+![Biopython](https://img.shields.io/badge/Dependecy-Biopython-steelblue)
+![OS](https://img.shields.io/badge/OS-_Windows_|_Mac_|_Linux-steelblue)
+![License](https://img.shields.io/badge/License-MIT-steelblue)
+
 <div style='justify-content: center'>
 <img src="https://github.com/iliapopov17/SequenceForge-Lite/blob/main/imgs/logo.png" align='center', width="25%">
 </div>
