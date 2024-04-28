@@ -45,6 +45,8 @@ pip install biopython
 - Demonstrational python notebook is available in `demo.ipynb` file
 - Demonstrational data is available in `demo_data` folder
 
+> DISCLAMER: I believe 'Usage Guide' must be in the README! I have read HW description, I know that it is not welcome to perserve it in README. Yet my opinion is my opinion and it cannot be changed. I plan to master my skills in writing detailed instructions and oneday I will deploy github pages with the instructions how to use this tool. But for now 'Usage Guide' will stay in README.
+
 ### Import modules
 
 **_Input_**
