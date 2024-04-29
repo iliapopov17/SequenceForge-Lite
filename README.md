@@ -17,6 +17,7 @@
 - [Usage Guide](#usage-guide)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
+- [Contact](#contact)
 
 ## Features
 ### FASTQ Filtering
