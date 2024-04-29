@@ -123,7 +123,9 @@ def parse_blast_output(input_file: str, output_file: Optional[str] = None) -> No
     # Write the sorted best results to the output file
     with open(output_file, "w") as outfile:
         for description in best_results:
-            outfile.write(description + "\\n")
+            outfile.write(description + "\n")
+
+    print(f"Best BLAST results saved to {output_file}")
 
 
 @dataclass
