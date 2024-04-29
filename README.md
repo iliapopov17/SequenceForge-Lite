@@ -16,6 +16,7 @@
 - Specify custom ranges for GC content and sequence length.
 - Set a minimum quality score threshold for sequences.
 ### FASTA File Manipulation
+- Get quick info on each sequence in FASTA file.
 - Convert multiline FASTA files to one-line format.
 - Shift the start position of one-line FASTA sequences by a specified amount.
 ### BLAST Output Parsing
@@ -27,8 +28,11 @@
 - Transcribes DNA sequence to RNA
 - Prints RNA sequence in codons
 - Finds motifs in nucleic acids sequences
-- Translates RNA sequence to amino acid
+- Translates RNA sequence to amino acid (without biological meaning, it does it "dumbly")
 - Calculates molecular weight of amino acid sequence
+### Custom RandomForestClassifier
+- Self written implementation of RandomForestClassifier
+- Has parallelisation functionality (speeds up 2 times when specifying 2 threads)
 
 ## Installation
 
