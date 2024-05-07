@@ -1,7 +1,7 @@
 from Bio import SeqIO
 from Bio.SeqUtils import gc_fraction
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Union, List, Type
 
 
 def fastq_filter(
@@ -13,22 +13,17 @@ def fastq_filter(
     quality_threshold: Union[int, float] = 0,
 ) -> None:
     """
-    This function work with FASTQ files and filters them by
-    GC content, length and Q-score.
+    Filter FASTQ records based on GC content, sequence length, and quality score.
 
-    Arguments (positional):
-    - input_path (str): full path to the file that you want to work with
-    - output_filename (str): enter just a name of the file, don't add extention
+    Parameters:
+        input_fastq (str): Path to the input FASTQ file.
+        output_fastq (str): Path to the output FASTQ file.
+        gc_bound (Union[Tuple[int, int], int]): GC content bounds (inclusive) or minimum GC percentage.
+        length_bound (Union[Tuple[int, int], int]): Sequence length bounds (inclusive) or minimum length.
+        quality_threshold (int): Minimum quality score (inclusive).
 
-    Arguments (keyword):
-    - gc_bound (tuple, int, float): tuple of required range of GC percentage (inclusive),
-    num or float if only higher border of the range is needed (exclusive).
-    - length_bound (tuple, int, float): tuple of required range of sequences length (inclusive),
-    num or float if only higher border of the range is needed (exclusive).
-    - quality_threshold (int): int of lowest level of Q-score (inclusive).
-
-    Output:
-    - list of BioSeq records. Write file to .fastq
+    Returns:
+        None: Writes filtered sequences to an output FASTQ file.
     """
 
     # Create the output FASTA file name
@@ -68,71 +63,188 @@ def fastq_filter(
 
 
 class BiologicalSequence(ABC):
+    """
+    Abstract base class for biological sequences, enforcing methods for subclasses.
+    """
+
     @abstractmethod
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Return the length of the sequence.
+
+        Returns:
+            int: The number of characters in the sequence.
+        """
         pass
 
     @abstractmethod
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
+        """
+        Retrieve an element from the sequence by index.
+
+        Parameters:
+            index (int): The position in the sequence to retrieve.
+
+        Returns:
+            The element at the specified index in the sequence.
+        """
         pass
 
     @abstractmethod
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the sequence.
+
+        Returns:
+            str: The sequence as a standard string.
+        """
         pass
 
     @abstractmethod
-    def check_alphabet(self):
+    def check_alphabet(self) -> bool:
+        """
+        Check if the sequence contains only valid characters.
+
+        Returns:
+            bool: True if all characters in the sequence are valid, False otherwise.
+        """
         pass
 
 
 class NucleicAcidSequence(BiologicalSequence):
-    complement_dict = {"A": "", "T": "", "G": "", "C": ""}
+    """
+    Base class for nucleic acid sequences, supporting basic operations like obtaining a complement
+    and calculating GC content.
+    """
 
-    def __init__(self, sequence):
+    complement_dict = {
+        "A": "T",
+        "T": "A",
+        "G": "C",
+        "C": "G",
+    }
+
+    def __init__(self, sequence: str) -> None:
+        """
+        Initialize a NucleicAcidSequence with a sequence string.
+
+        Parameters:
+            sequence (str): The nucleotide sequence.
+        """
         self.sequence = sequence
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Return the length of the sequence.
+
+        Returns:
+            int: The number of characters in the sequence.
+        """
         return len(self.sequence)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> str:
+        """
+        Retrieve a nucleotide from the sequence by index.
+
+        Parameters:
+            index (int): The position in the sequence to retrieve.
+
+        Returns:
+            str: The nucleotide at the specified index.
+        """
         return self.sequence[index]
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return a string representation of the nucleic acid sequence.
+
+        Returns:
+            str: The nucleotide sequence as a standard string.
+        """
         return self.sequence
 
-    def check_alphabet(self):
-        valid_alphabet = set("ATGC")
+    def check_alphabet(self) -> bool:
+        """
+        Check if the sequence contains only valid nucleotides (A, T, G, C).
+
+        Returns:
+            bool: True if all characters in the sequence are valid, False otherwise.
+        """
+        valid_alphabet = set("AUTGC")
         return set(self.sequence) <= valid_alphabet
 
-    def complement(self):
+    def complement(self) -> "NucleicAcidSequence":
+        """
+        Compute the complement of the nucleic acid sequence.
+
+        Returns:
+            NucleicAcidSequence: A new instance of NucleicAcidSequence representing the complement.
+        """
         complemented_sequence = [
             self.complement_dict.get(base, base) for base in self.sequence
         ]
         return self._create_instance("".join(complemented_sequence))
 
-    def _create_instance(self, sequence):
+    def _create_instance(self, sequence: str) -> "NucleicAcidSequence":
+        """
+        Create a new instance of the same class with a given sequence.
+
+        Parameters:
+            sequence (str): The nucleotide sequence for the new instance.
+
+        Returns:
+            NucleicAcidSequence: A new instance of this class.
+        """
         return self.__class__(sequence)
 
-    def gc_content(self):
-        gc_count = sum(base in "GCgc" for base in self.sequence)
-        return gc_count / len(self.sequence)
+    def gc_content(self) -> float:
+        """
+        Calculate the GC content of the sequence.
 
-    def find_motif(self, motif):
+        Returns:
+            float: The percentage of nucleotides in the sequence that are G or C.
+        """
+        gc_count = sum(1 for base in self.sequence if base in "GC")
+        return (gc_count / len(self.sequence)) * 100 if self.sequence else 0
+
+    def find_motif(self, motif: str) -> List[int]:
+        """
+        Find all occurrences of a motif in the sequence.
+
+        Parameters:
+            motif (str): The motif to search for.
+
+        Returns:
+            List[int]: A list of start indices where the motif appears in the sequence.
+        """
         motif_indices = []
         motif_length = len(motif)
         sequence_length = len(self)
 
         for i in range(sequence_length - motif_length + 1):
-            if self[i : i + motif_length] == motif:
+            if self.sequence[i : i + motif_length] == motif:
                 motif_indices.append(i)
 
         return motif_indices
 
 
 class DNASequence(NucleicAcidSequence):
+    """
+    Represents a DNA sequence and provides DNA-specific operations like transcription.
+    """
+
     complement_dict = {"A": "T", "T": "A", "G": "C", "C": "G"}
 
-    def transcribe(self):
+    def transcribe(self) -> "RNASequence":
+        """
+        Transcribe the DNA sequence to RNA.
+
+        This method converts the DNA sequence into its RNA equivalent based on standard
+        DNA-to-RNA transcription rules.
+
+        Returns:
+            RNASequence: The transcribed RNA sequence.
+        """
         transcription_rules = {"A": "U", "T": "A", "G": "C", "C": "G"}
         transcribed_sequence = "".join(
             transcription_rules.get(base, base) for base in self.sequence
@@ -141,6 +253,10 @@ class DNASequence(NucleicAcidSequence):
 
 
 class RNASequence(NucleicAcidSequence):
+    """
+    Represents an RNA sequence and provides methods for processing RNA into proteins.
+    """
+
     complement_dict = {"A": "U", "U": "A", "G": "C", "C": "G"}
 
     codon_table = {
@@ -210,10 +326,22 @@ class RNASequence(NucleicAcidSequence):
         "GGG": "G",
     }
 
-    def codons(self):
+    def codons(self) -> list:
+        """
+        Generates a list of codons from the RNA sequence.
+
+        Returns:
+            list: List of codon strings.
+        """
         return [self.sequence[i : i + 3] for i in range(0, len(self.sequence), 3)]
 
-    def translate(self):
+    def translate(self) -> "AminoAcidSequence":
+        """
+        Translate the RNA sequence into an amino acid sequence using the genetic code.
+
+        Returns:
+            AminoAcidSequence: Represents the translated amino acid sequence.
+        """
         codons = [self.sequence[i : i + 3] for i in range(0, len(self.sequence), 3)]
         translated_sequence = ""
         for codon in codons:
@@ -223,23 +351,67 @@ class RNASequence(NucleicAcidSequence):
 
 
 class AminoAcidSequence(BiologicalSequence):
-    def __init__(self, sequence):
+    """
+    Represents an amino acid sequence and provides methods for biochemical properties.
+    """
+
+    def __init__(self, sequence: str) -> None:
+        """
+        Initialize the AminoAcidSequence with a sequence string.
+
+        Parameters:
+            sequence (str): The amino acid sequence.
+        """
         self.sequence = sequence
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Get the length of the amino acid sequence.
+
+        Returns:
+            int: Length of the sequence.
+        """
         return len(self.sequence)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> str:
+        """
+        Get the amino acid at a specific index.
+
+        Parameters:
+            index (int): Index of the amino acid in the sequence.
+
+        Returns:
+            str: Amino acid at the specified index.
+        """
         return self.sequence[index]
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Get the string representation of the amino acid sequence.
+
+        Returns:
+            str: The amino acid sequence.
+        """
         return self.sequence
 
-    def check_alphabet(self):
+    def check_alphabet(self) -> bool:
+        """
+        Check if the sequence contains only valid amino acids.
+
+        Returns:
+            bool: True if the sequence contains only valid amino acids, False otherwise.
+        """
         valid_alphabet = set("ACDEFGHIKLMNPQRSTVWY")
         return set(self.sequence) <= valid_alphabet
 
-    def get_molecular_weight(self):
+    def get_molecular_weight(self) -> float:
+        """
+        Calculate the total molecular weight of the amino acid sequence.
+
+        Returns:
+            float: Total molecular weight of the sequence.
+        """
+        # Amino acid to molecular weight mapping (abbreviated for space)
         molecular_weights = {
             "A": 89.09,
             "C": 121.16,
@@ -262,4 +434,5 @@ class AminoAcidSequence(BiologicalSequence):
             "W": 204.23,
             "Y": 181.19,
         }
+        # Calculate weight by summing the weights of each amino acid in the sequence
         return sum(molecular_weights[aa] for aa in self.sequence)
