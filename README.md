@@ -4,8 +4,8 @@
 ![OS](https://img.shields.io/badge/OS-_Windows_|_Mac_|_Linux-steelblue)
 ![License](https://img.shields.io/badge/License-MIT-steelblue)
 
-<img src="https://github.com/iliapopov17/SequenceForge-Lite/blob/main/imgs/SeqForgeLite_logo_light.png#gh-light-mode-only" width = 50%/>
-<img src="https://github.com/iliapopov17/SequenceForge-Lite/blob/main/imgs/SeqForgeLite_logo_dark.png#gh-dark-mode-only" width = 50%/>
+<img src="https://github.com/iliapopov17/SequenceForge-Lite/blob/main/imgs/SFL_logo_light.png#gh-light-mode-only" width = 50%/>
+<img src="https://github.com/iliapopov17/SequenceForge-Lite/blob/main/imgs/SFL_logo_dark.png#gh-dark-mode-only" width = 50%/>
 
 > SequenceForge-Lite is a lightweight tool designed to work with biological sequence data, providing various functionalities for filtering FASTQ files and manipulating FASTA files. Additionally, it offers utilities for parsing BLAST output files.
 
