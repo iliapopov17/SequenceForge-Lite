@@ -56,7 +56,7 @@ pip install -r requirements.txt
 - Demonstrational python notebook is available in `demo.ipynb` file
 - Demonstrational data is available in `demo_data` folder<br>
 
-🔗 Visit [SequenceForge-Lite tutorial](https://github.com/iliapopov17/SequenceForge-Lite/wiki) web page
+🔗 Visit [SequenceForge-Lite wiki](https://github.com/iliapopov17/SequenceForge-Lite/wiki) page
 
 ## Troubleshooting
 Common Issues and Solutions:
